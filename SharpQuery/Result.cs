@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SharpQuery
 {
-    class Result
+    public class Result
     {
         private DataRowCollection Rows;
         public List<Dictionary<string, string>> Data;

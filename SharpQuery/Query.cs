@@ -4,7 +4,7 @@ using System.Data;
 
 namespace SharpQuery
 {
-    class Query
+    public class Query
     {
         public string QueryString;
         public Dictionary<string, string> Args = new Dictionary<string, string>();
