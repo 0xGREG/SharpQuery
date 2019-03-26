@@ -7,16 +7,16 @@ namespace SharpQuery
     public class Result
     {
         private DataRowCollection Rows;
-        public List<Dictionary<string, string>> Data;
+        public Dictionary<string, string>[] Data;
         public int Count;
 
         public Result(DataTable tbl)
         {
-            Data = new List<Dictionary<string, string>>();
-
             Rows = tbl.Rows;
 
             Count = Rows.Count;
+
+            Data = new Dictionary<string, string>[Count];
 
             for (int i = 0; i < Count; i++)
             {
