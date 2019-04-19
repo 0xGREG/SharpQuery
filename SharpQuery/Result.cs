@@ -6,25 +6,25 @@ namespace SharpQuery
 {
     public class Result
     {
-        private DataRowCollection Rows;
-        public Dictionary<string, string>[] Data;
+        private DataRowCollection Data;
+        public Dictionary<string, string>[] Rows;
         public int Count;
 
         public Result(DataTable tbl)
         {
-            Rows = tbl.Rows;
+            Data = tbl.Rows;
 
-            Count = Rows.Count;
+            Count = Data.Count;
 
-            Data = new Dictionary<string, string>[Count];
+            Rows = new Dictionary<string, string>[Count];
 
             for (int i = 0; i < Count; i++)
             {
-                Data[i] = new Dictionary<string, string>();
+                Rows[i] = new Dictionary<string, string>();
 
                 foreach (string key in Keys(i))
                 {
-                    Data[i].Add(key, ValueByKey(key, i));
+                    Rows[i].Add(key, ValueByKey(key, i));
                 }
             }
         }
@@ -33,7 +33,7 @@ namespace SharpQuery
         {
             List<string> list = new List<string>();
 
-            DataColumnCollection table = Rows[index].Table.Columns;
+            DataColumnCollection table = Data[index].Table.Columns;
 
             for (int i = 0; i < table.Count; i++)
             {
@@ -43,13 +43,13 @@ namespace SharpQuery
             return list;
         }
 
-        public string ValueByKey(string name, int index)
+        private string ValueByKey(string name, int index)
         {
             string data = "";
 
             try
             {
-                data = Rows[index].Field<object>(name).ToString();
+                data = Data[index].Field<object>(name).ToString();
             }
             catch (Exception)
             {
@@ -59,16 +59,29 @@ namespace SharpQuery
             return data;
         }
 
-        public object Get(string key, int index = 0)
+        public int Get(string key, int row)
         {
-            try
-            {
-                return Data[index][key];
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            return int.Parse(Rows[row][key]);
+        }
+
+        public int GetInt(string key, int index)
+        {
+            return int.Parse(Rows[index][key]);
+        }
+
+        public int GetInt(string key)
+        {
+            return GetInt(key, 0);
+        }
+
+        public string GetString(string key, int index)
+        {
+            return Rows[index][key];
+        }
+
+        public string GetString(string key)
+        {
+            return GetString(key, 0);
         }
     }
 }
